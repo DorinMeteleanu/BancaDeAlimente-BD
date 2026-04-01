@@ -87,10 +87,82 @@ Această aplicație este destinată gestionării eficiente a activității unei 
 | atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | id_voluntar | NUMBER(13) | PK | | | Identificator unic |
-| nume | VARCHAR2(50) | NOT NULL | "Popescu" | | |
-| prenume | VARCHAR2(50) | NOT NULL | "Ion" | | |
-| telefon | VARCHAR2(15) | NOT NULL, UNIQUE | "0712345678" | | |
-| email | VARCHAR2(50) | UNIQUE | "ion@email.com" | | |
+| nume | VARCHAR2(50) | NOT NULL | | | |
+| prenume | VARCHAR2(50) | NOT NULL | | | |
+| telefon | VARCHAR2(15) | NOT NULL, UNIQUE | | | |
+| email | VARCHAR2(50) | UNIQUE | | | |
+
+### DONATOR (Părinte)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_donator | NUMBER(13) | PK | | | |
+| tip_donator | VARCHAR2(20) | NOT NULL | "Companie", "Fizica" | | Determinant pentru sub-entități |
+
+### COMPANIE (Sub-entitate)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_donator | NUMBER(13) | PK, FK | | | Referință către DONATOR |
+| nume_companie| VARCHAR2(100)| NOT NULL | "Supermarket SRL" | | |
+| cui | VARCHAR2(20) | NOT NULL, UNIQUE | "RO123456" | | Cod Unic de Înregistrare |
+
+### PERS_FIZICĂ (Sub-entitate)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_donator | NUMBER(13) | PK, FK | | | Referință către DONATOR |
+| cnp | VARCHAR2(13) | NOT NULL, UNIQUE | "1900101..." | | |
+| nume_complet | VARCHAR2(100)| NOT NULL | "Popa Maria" | | |
+
+### DONAȚIE
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_donatie | NUMBER(13) | PK | | | |
+| id_donator | NUMBER(13) | FK, NOT NULL | | | |
+| id_voluntar | NUMBER(13) | FK, NOT NULL | | | Cine a înregistrat-o |
+| data_donatie | DATE | NOT NULL | 25-OCT-2023 | SYSDATE | Data curentă automat |
+
+### CERTIFICAT_DONAȚIE
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_certificat| NUMBER(13) | PK | | | |
+| id_donatie | NUMBER(13) | FK, UNIQUE, NOT NULL| | | Relație 1:1 cu Donația |
+| serie_doc | VARCHAR2(10) | NOT NULL | "CERT-001" | | |
+
+### ALIMENT (Părinte)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_aliment | NUMBER(13) | PK | | | |
+| id_zona | NUMBER(13) | FK | | | Locația pe raft |
+| denumire | VARCHAR2(100)| NOT NULL | "Orez", "Mere" | | |
+| um | VARCHAR2(10) | NOT NULL | "kg", "litri", "buc" | | Unitate de măsură |
+
+### PERISABILE (Sub-entitate)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_aliment | NUMBER(13) | PK, FK | | | Referință către ALIMENT |
+| data_expirare| DATE | NOT NULL | | | Critic pentru consum |
+| temp_pastrare| NUMBER(4,2) | | 4.5, -18 | | Grade Celsius |
+
+### DEPOZIT
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_depozit | NUMBER(13) | PK | | | |
+| denumire | VARCHAR2(50) | NOT NULL | "Depozit Central" | | |
+| adresa | VARCHAR2(200)| NOT NULL | "Str. Florilor 12" | | |
+
+### ZONA_RAFT
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_zona | NUMBER(13) | PK | | | |
+| id_depozit | NUMBER(13) | FK, NOT NULL | | | |
+| cod_raft | VARCHAR2(10) | NOT NULL | "A1", "C3-FRIG" | | |
+| capacitate | NUMBER(10) | NOT NULL | 500, 1000 | | Limita maximă (kg/l) |
+
+### CONȚINE (Tabel Asociativ Donație - Aliment)
+| atribut | tip de date | constrângeri | valori posibile/exemple | valori implicite | observatii |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| id_donatie | NUMBER(13) | PK, FK | | | |
+| id_aliment | NUMBER(13) | PK, FK | | | |
+| cantitate | NUMBER(8,2) | NOT NULL, > 0 | 50.5, 10 | | Cât s-a donat |
 
 ## 6. Diagrama ERD
 ![diagrama_erd](./BD_erd.png)
