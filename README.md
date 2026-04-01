@@ -80,7 +80,7 @@ Această aplicație este destinată gestionării eficiente a activității unei 
     - Cărei donații îi corespunde un certificat: 1.
 
 ## 5. Diagrama ERD
-![erd](./BD_erd.png)
+![diagrama_erd](./BD_erd.png)
 
 ## 6. Diagrama conceptuală
-![erd](./BD_conceptuala.png)
+![diagrama_conceptuala](./BD_conceptuala.png)
