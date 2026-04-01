@@ -19,6 +19,8 @@ Această aplicație este destinată gestionării eficiente a activității unei 
 
 - Restricție de `unicitate` a documentelor: O donație trebuie să fie însoțită de unul și doar un singur certificat de donație (relație 1:1 obligatorie).
 - Restricții de stoc logic: Cantitatea de alimente cuprinsă într-o distribuție către beneficiari nu poate depăși cantitatea totală de alimente disponibilă pe rafturile depozitelor
+- Obligativitatea datelor de contact: Orice voluntar și companie donatoare trebuie să aibă completat un număr de telefon sau un email valid.
+- Trasabilitate obligatorie: O donație sau o distribuție nu poate exista în sistem fără a fi asociată unui voluntar responsabil.
 
 ## 3. Descrierea entităților
 
